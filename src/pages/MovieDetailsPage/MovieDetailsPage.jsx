@@ -1,13 +1,11 @@
-import { useEffect, useState } from "react";
-import { useParams, useNavigate, Link, Outlet } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { useParams, Link, Outlet, useLocation } from "react-router-dom";
 import { fetchMovieDetails } from "../../services/api"; // Функція для запиту до API
 import styles from "./MovieDetailsPage.module.css";
 
 const MovieDetailsPage = () => {
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
-  const navigate = useNavigate();
-  console.log(movieId);
 
   useEffect(() => {
     const getMovieDetails = async () => {
@@ -18,6 +16,15 @@ const MovieDetailsPage = () => {
     getMovieDetails();
   }, [movieId]);
 
+  const location = useLocation();
+  const goBackRef = useRef(location.state?.from || "/movies");
+
+  useEffect(() => {
+    if (location.state?.from) {
+      goBackRef.current = location.state.from;
+    }
+  }, [location.state?.from]);
+
   if (!movie) {
     return <p>Loading...</p>;
   }
@@ -27,9 +34,12 @@ const MovieDetailsPage = () => {
 
   return (
     <div className={styles.container}>
-      <button onClick={() => navigate(-1)} className={styles.goBackButton}>
+      {/* <button onClick={() => navigate(-1)} className={styles.goBackButton}>
         Go back
-      </button>
+      </button> */}
+      <Link to={goBackRef.current} className={styles.goBackButton}>
+        Go back
+      </Link>
       <div className={styles.movieDetails}>
         <img
           src={`https://image.tmdb.org/t/p/w500${poster_path}`}
