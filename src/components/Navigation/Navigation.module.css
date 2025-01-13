@@ -1,17 +1,21 @@
 .nav {
   display: flex;
-  gap: 20px;
-  padding: 10px;
-  background-color: #f0f0f0;
+  gap: 16px;
+  background-color: #282c34;
+  padding: 16px;
+  align-items: center;
+  justify-content: center;
 }
 
 .link {
+  color: white;
   text-decoration: none;
-  color: #000;
-  font-weight: 500;
+  font-size: 18px;
+  font-weight: bold;
+  transition: color 0.3s ease;
 }
 
-.activeLink {
-  color: #007bff;
-  font-weight: 700;
+.link:hover,
+.link.active {
+  color: #61dafb;
 }

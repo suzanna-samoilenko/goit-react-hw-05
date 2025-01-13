@@ -1,20 +1,27 @@
 import styles from "./MovieList.module.css";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
 
 const MovieList = ({ movies }) => {
-  console.log(movies);
+  const location = useLocation();
 
   return (
-    <ul className={styles.list}>
+    <ul className={styles.movieList}>
       {movies.map((movie) => (
-        <li key={movie.id} className={styles.listItem}>
-          <img
-            src={`${IMAGE_BASE_URL}${movie.poster_path}`}
-            className={styles.poster}
-          />
-          <Link to={`/movies/${movie.id}`} className={styles.link}>
+        <li key={movie.id} className={styles.movieItem}>
+          <Link to={`/movies/${movie.id}`} state={{ from: location }}>
+            <img
+              src={`${IMAGE_BASE_URL}${movie.poster_path}`}
+              alt={movie.title}
+              className={styles.moviePoster}
+            />
+          </Link>
+          <Link
+            to={`/movies/${movie.id}`}
+            className={styles.movieTitle}
+            state={{ from: location }}
+          >
             {movie.title}
           </Link>
         </li>

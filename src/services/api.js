@@ -14,11 +14,48 @@ export const fetchTrendingMovies = async () => {
   return data.results;
 };
 
-export const fetchMovieDetails = async () => {
-  const { data } = await axios.get(`${BASE_URL}/trending/movie/{movie_id}`, {
+export const fetchMovieDetails = async (movieId) => {
+  try {
+    const { data } = await axios.get(`${BASE_URL}/movie/${movieId}`, {
+      headers: {
+        Authorization: API_TOKEN,
+      },
+    });
+    return data;
+  } catch (error) {
+    console.error("Error fetching movie details:", error);
+    throw error;
+  }
+};
+
+export const fetchSearchMovies = async (query) => {
+  const { data } = await axios.get(`${BASE_URL}/search/movie`, {
+    headers: {
+      Authorization: API_TOKEN,
+    },
+    params: {
+      query,
+      language: "en-US",
+      page: 1,
+    },
+  });
+  return data.results;
+};
+
+export const fetchMovieCast = async (movieId) => {
+  const { data } = await axios.get(`${BASE_URL}/movie/${movieId}/credits`, {
     headers: {
       Authorization: API_TOKEN,
     },
   });
-  return data;
+  return data.cast;
+};
+
+export const fetchMovieReviews = async (movieId) => {
+  const { data } = await axios.get(`${BASE_URL}/movie/${movieId}/reviews`, {
+    headers: {
+      Authorization: API_TOKEN,
+    },
+  });
+  return data.results;
 };
